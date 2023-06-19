@@ -15,6 +15,8 @@ export default {
         grey: "#9699AA",
         "light-grey": "#D6D9E6",
         sky: "#EFF5FF",
+        red: "#EE374A",
+        "sky-blue": "#483EFF",
       },
     },
   },
