@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import personalInfoReducer from "./personalInfoSlice";
+import registrationInfoReducer from "./registrationInfoSlice";
 
 const store = configureStore({
   reducer: {
-    personalInfo: personalInfoReducer,
+    registrationInfo: registrationInfoReducer,
   },
 });
 

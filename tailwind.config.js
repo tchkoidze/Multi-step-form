@@ -17,6 +17,7 @@ export default {
         sky: "#EFF5FF",
         red: "#EE374A",
         "sky-blue": "#483EFF",
+        purple: "#483EFF",
       },
     },
   },

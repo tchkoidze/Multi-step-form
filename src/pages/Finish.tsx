@@ -1,7 +1,22 @@
+import { useEffect, useState } from "react";
 import RegistrationSteps from "../components/Registration-steps";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../store/hooks";
 
 const Finish = () => {
+  const [active, setActive] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const registrationInfo = useAppSelector((store) => store.registrationInfo);
+
+  console.log(registrationInfo);
+
+  useEffect(() => {
+    if (active) {
+      localStorage.setItem("formData", JSON.stringify(registrationInfo));
+    } else setActive(true);
+  }, [registrationInfo]);
+
   return (
     <div className="flex flex-col h-[100%]">
       <RegistrationSteps />
@@ -15,7 +30,7 @@ const Finish = () => {
         <div className="flex flex-col gap-3"></div>
       </div>
       <div className="flex mt-auto bg-white p-8">
-        <Link to={"/plan"} className="text-grey">
+        <Link to={"/adds"} className="text-grey">
           Go Back
         </Link>
         <button type="submit" className="bg-blue rounded px-4 py-3 ml-auto">
@@ -25,3 +40,5 @@ const Finish = () => {
     </div>
   );
 };
+
+export default Finish;

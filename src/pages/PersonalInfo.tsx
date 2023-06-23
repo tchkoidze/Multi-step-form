@@ -1,11 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Schema } from "yup";
 import personalinfoSchema from "../personalInfoSchema";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { updatePersonalInfo } from "../store/personalInfoSlice";
+import { updateRegistrationInfo } from "../store/registrationInfoSlice";
 import RegistrationSteps from "../components/Registration-steps";
+import { useEffect, useState } from "react";
 
 type FormData = {
   name: string;
@@ -15,12 +15,22 @@ type FormData = {
 
 const PersonalInfo = () => {
   const dispatch = useAppDispatch();
-  const personalInfo = useAppSelector((state) => state.personalInfo);
+  const registrationInfo = useAppSelector((state) => state.registrationInfo);
+
+  const [active, setActive] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: yupResolver(personalinfoSchema) });
+  } = useForm<FormData>({
+    resolver: yupResolver(personalinfoSchema),
+    defaultValues: {
+      email: registrationInfo.email,
+      name: registrationInfo.name,
+      phone: registrationInfo.phone,
+    },
+  });
 
   const navigate = useNavigate();
 
@@ -29,7 +39,15 @@ const PersonalInfo = () => {
     navigate("/plan");
   };
 
-  console.log(personalInfo);
+  console.log(registrationInfo);
+
+  //const initialRender = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (active) {
+      localStorage.setItem("formData", JSON.stringify(registrationInfo));
+    } else setActive(true);
+  }, [registrationInfo]);
 
   return (
     <div className="h-[100%]  flex flex-col justify-between">
@@ -52,11 +70,12 @@ const PersonalInfo = () => {
               <input
                 type="text"
                 id="name"
+                //value={registrationInfo.name}
                 placeholder="e.g. Stephen King"
                 {...register("name", {
                   onChange: (e) => {
                     dispatch(
-                      updatePersonalInfo({
+                      updateRegistrationInfo({
                         value: e.target.value,
                         property: "name",
                       })
@@ -76,16 +95,16 @@ const PersonalInfo = () => {
               <input
                 //type="email"
                 id="email"
+                //value={registrationInfo.email}
                 placeholder="e.g. stephenking@lorem.com"
                 {...register("email", {
                   onChange: (e) => {
                     dispatch(
-                      updatePersonalInfo({
+                      updateRegistrationInfo({
                         property: "email",
                         value: e.target.value,
                       })
                     );
-                    console.log(personalInfo);
                   },
                 })}
                 className="border border-light-grey rounded text-blue px-4 py-3 outline-sky-blue"
@@ -105,12 +124,11 @@ const PersonalInfo = () => {
                 {...register("phone", {
                   onChange: (e) => {
                     dispatch(
-                      updatePersonalInfo({
+                      updateRegistrationInfo({
                         property: "phone",
                         value: e.target.value,
                       })
                     );
-                    console.log(personalInfo);
                   },
                 })}
                 className="border border-light-grey rounded text-blue px-4 py-3 outline-sky-blue"
@@ -123,7 +141,11 @@ const PersonalInfo = () => {
         <button
           type="submit"
           className="bg-blue rounded px-4 py-3 ml-auto mr-8 "
-          onClick={() => handleSubmit(onSubmit)()}
+          onClick={() => {
+            handleSubmit(onSubmit)();
+
+            console.log(active);
+          }}
         >
           Next Step
         </button>
