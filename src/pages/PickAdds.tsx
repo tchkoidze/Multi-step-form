@@ -3,8 +3,13 @@ import RegistrationSteps from "../components/Registration-steps";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateRegistrationInfo } from "../store/registrationInfoSlice";
+import Check from "../assets/images/icon-checkmark.svg";
 
-const PickAdds = () => {
+interface SelectPlanProps {
+  clicked: boolean;
+}
+
+const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
   const dispatch = useAppDispatch();
   const registrationInfo = useAppSelector((store) => store.registrationInfo);
 
@@ -27,6 +32,10 @@ const PickAdds = () => {
       // Add the ad to the selectedAds array
       setSelectedAdds([...selectedAdds, add]);
     }
+    // Dispatch the updateRegistrationInfo action with the selectedAdds array
+    dispatch(
+      updateRegistrationInfo({ property: "ads", value: [...selectedAdds, add] })
+    );
   };
   console.log(selectedAdds);
   const handleNextStep = () => {
@@ -41,9 +50,7 @@ const PickAdds = () => {
 
     if (isAnyOptionSelected) {
       // Dispatch the updateRegistrationInfo action with the selectedAds array
-      dispatch(
-        updateRegistrationInfo({ property: "ads", value: selectedAdds })
-      );
+      //dispatch(updateRegistrationInfo({ property: "ads", value: selectedAdds }));
       navigate("/finish");
       // Other logic for the next step
     } else {
@@ -65,7 +72,7 @@ const PickAdds = () => {
   return (
     <div className="flex flex-col h-[100%]">
       <RegistrationSteps />
-      <div className="bg-white px-6 py-8 mx-4 rounded-[10px]">
+      <div className="bg-white px-6 py-8 mx-4 rounded-[10px] -translate-y-[72px]">
         <div className="mb-[22px]">
           <h1 className="font-ubuntu text-blue mb-[9px]">Pick add-ons</h1>
           <p className="text-grey">
@@ -91,10 +98,18 @@ const PickAdds = () => {
             }`}*/
             onClick={() => handleAddClick("Online service")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              selectedAdds.includes("Online service") && "border-purple"
+              selectedAdds.includes("Online service") && "border-purple "
             }`}
           >
-            <div className="w-5 h-5 border border-grey rounded"></div>
+            <div
+              className={`w-5 h-5 border flex items-center justify-center border-grey rounded ${
+                selectedAdds.includes("Online service")
+                  ? "border-purple bg-purple !important"
+                  : ""
+              }}`}
+            >
+              {selectedAdds.includes("Online service") && <img src={Check} />}
+            </div>
             <div className="ml-4">
               <h3 className="font-ubuntu font-medium text-sm/[16px]  text-blue">
                 Online service
@@ -104,7 +119,7 @@ const PickAdds = () => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              +$1/mo
+              {clicked ? "+$10/yr" : "+$1/mo"}
             </p>
           </div>
 
@@ -129,7 +144,16 @@ const PickAdds = () => {
               selectedAdds.includes("Larger storage") && "border-purple"
             }`}
           >
-            <div className="w-5 h-5 border border-grey rounded"></div>
+            <div
+              className={`w-5 h-5 flex items-center justify-center border border-grey rounded ${
+                selectedAdds.includes("Larger storage")
+                  ? "border-purple bg-purple !important"
+                  : ""
+              }}`}
+            >
+              {selectedAdds.includes("Larger storage") && <img src={Check} />}
+            </div>
+
             <div className="ml-4 ">
               <h3 className="font-ubuntu font-medium text-sm/[16px]  text-blue">
                 Larger storage
@@ -139,7 +163,7 @@ const PickAdds = () => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              +$2/mo
+              {clicked ? "+$20/yr" : "+$2/mo"}
             </p>
           </div>
 
@@ -160,7 +184,17 @@ const PickAdds = () => {
               selectedAdds.includes("Customizable profile") && "border-purple"
             }`}
           >
-            <div className="w-5 h-5 border border-grey rounded"></div>
+            <div
+              className={`w-5 h-5 flex items-center justify-center border border-grey rounded ${
+                selectedAdds.includes("Customizable profile")
+                  ? "border-purple bg-purple !important"
+                  : ""
+              }}`}
+            >
+              {selectedAdds.includes("Customizable profile") && (
+                <img src={Check} />
+              )}
+            </div>
             <div className="ml-4">
               <h3 className="font-ubuntu font-medium text-sm/[16px]  text-blue">
                 Customizable profile
@@ -170,7 +204,7 @@ const PickAdds = () => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              +$2/mo
+              {clicked ? "+$20/yr" : "+$2/mo"}
             </p>
           </div>
         </div>

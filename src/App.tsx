@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { updateLocal } from "./store/registrationInfoSlice";
 import Finish from "./pages/Finish";
+import Thank from "./pages/Thank";
 
 //import { useAppDispatch, useAppSelector } from "./store/hooks";
 
@@ -36,8 +37,9 @@ function App() {
           path="/plan"
           element={<SelectPlan clicked={clicked} setClicked={setClicked} />}
         />
-        <Route path="/adds" element={<PickAdds />} />
-        <Route path="/finish" element={<Finish />} />
+        <Route path="/adds" element={<PickAdds clicked={clicked} />} />
+        <Route path="/finish" element={<Finish clicked={clicked} />} />
+        <Route path="/thank" element={<Thank />} />
       </Routes>
     </div>
   );
