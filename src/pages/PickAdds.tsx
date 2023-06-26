@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateRegistrationInfo } from "../store/registrationInfoSlice";
 import Check from "../assets/images/icon-checkmark.svg";
+import { number } from "yup";
 
 interface SelectPlanProps {
   clicked: boolean;
@@ -16,27 +17,78 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
 
-  const [selectedAdds, setSelectedAdds] = useState<string[]>(
-    registrationInfo.ads
-  );
-  const handleAddClick = (add: string) => {
+  const [selectedAdds, setSelectedAdds] = useState<string[]>([]);
+
+  const total = () => {
+    if (clicked) {
+      console.log(registrationInfo.ads);
+      const arr1 = registrationInfo.ads.map((x) => {
+        return x === "Online service"
+          ? 10
+          : x === "Larger storage"
+          ? 2
+          : x === "Customizable profile"
+          ? 2
+          : "";
+      });
+      console.log(arr1);
+      const total = parseFloat(registrationInfo.price.replace(/[^\d.-]/g, ""));
+      console.log(total);
+      return total;
+    }
+  };
+
+  /*const handleAddClick = (add: string) => {
     // Check if the ad is already selected
-    const isSelected = selectedAdds.includes(add);
+    const isSelected = registrationInfo.ads.includes(add);
     if (isSelected) {
       // Remove the ad from the selectedAds array
+      console.log(123);
       const updatedAdds = selectedAdds.filter(
         (selectedAdd) => selectedAdd !== add
       );
       setSelectedAdds(updatedAdds);
     } else {
+      console.log(isSelected);
+      console.log(780);
       // Add the ad to the selectedAds array
       setSelectedAdds([...selectedAdds, add]);
+      console.log(selectedAdds);
     }
+    // Wait for the state update to complete
+
+    console.log(selectedAdds);
     // Dispatch the updateRegistrationInfo action with the selectedAdds array
-    dispatch(
-      updateRegistrationInfo({ property: "ads", value: [...selectedAdds, add] })
-    );
+    dispatch(updateRegistrationInfo({ property: "ads", value: selectedAdds }));
+  };*/
+
+  const handleAddClick = (add: string) => {
+    console.log(registrationInfo.ads);
+    const beenselected = registrationInfo.ads.includes(add);
+    console.log(beenselected);
+    if (!beenselected) {
+      console.log(5);
+      dispatch(
+        updateRegistrationInfo({
+          property: "ads",
+          value: [...registrationInfo.ads, add],
+        })
+      );
+    } else {
+      const updateAdds = registrationInfo.ads.filter(
+        (selectedAdd) => selectedAdd !== add
+      );
+      dispatch(
+        updateRegistrationInfo({
+          property: "ads",
+          value: updateAdds,
+        })
+      );
+    }
+
+    //total();
   };
+
   console.log(selectedAdds);
   const handleNextStep = () => {
     // Dispatch the updateRegistrationInfo action with the selectedAds array
@@ -44,9 +96,9 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
     // Other logic for the next step
     // Check if any of the required options is selected
     const isAnyOptionSelected =
-      selectedAdds.includes("Larger storage") ||
-      selectedAdds.includes("Online service") ||
-      selectedAdds.includes("Customizable profile");
+      registrationInfo.ads.includes("Larger storage") ||
+      registrationInfo.ads.includes("Online service") ||
+      registrationInfo.ads.includes("Customizable profile");
 
     if (isAnyOptionSelected) {
       // Dispatch the updateRegistrationInfo action with the selectedAds array
@@ -68,6 +120,11 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
       localStorage.setItem("formData", JSON.stringify(registrationInfo));
     } else setActive(true);
   }, [registrationInfo]);
+
+  useEffect(() => {
+    // Dispatch the updateRegistrationInfo action whenever selectedAdds changes
+    dispatch(updateRegistrationInfo({ property: "ads", value: selectedAdds }));
+  }, [dispatch, selectedAdds]);
 
   return (
     <div className="flex flex-col h-[100%]">
@@ -98,17 +155,20 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
             }`}*/
             onClick={() => handleAddClick("Online service")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              selectedAdds.includes("Online service") && "border-purple "
+              registrationInfo.ads.includes("Online service") &&
+              "border-purple "
             }`}
           >
             <div
               className={`w-5 h-5 border flex items-center justify-center border-grey rounded ${
-                selectedAdds.includes("Online service")
+                registrationInfo.ads.includes("Online service")
                   ? "border-purple bg-purple !important"
                   : ""
               }}`}
             >
-              {selectedAdds.includes("Online service") && <img src={Check} />}
+              {registrationInfo.ads.includes("Online service") && (
+                <img src={Check} />
+              )}
             </div>
             <div className="ml-4">
               <h3 className="font-ubuntu font-medium text-sm/[16px]  text-blue">
@@ -141,17 +201,19 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
             }`}*/
             onClick={() => handleAddClick("Larger storage")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              selectedAdds.includes("Larger storage") && "border-purple"
+              registrationInfo.ads.includes("Larger storage") && "border-purple"
             }`}
           >
             <div
               className={`w-5 h-5 flex items-center justify-center border border-grey rounded ${
-                selectedAdds.includes("Larger storage")
+                registrationInfo.ads.includes("Larger storage")
                   ? "border-purple bg-purple !important"
                   : ""
               }}`}
             >
-              {selectedAdds.includes("Larger storage") && <img src={Check} />}
+              {registrationInfo.ads.includes("Larger storage") && (
+                <img src={Check} />
+              )}
             </div>
 
             <div className="ml-4 ">
@@ -181,17 +243,18 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
             }`}*/
             onClick={() => handleAddClick("Customizable profile")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              selectedAdds.includes("Customizable profile") && "border-purple"
+              registrationInfo.ads.includes("Customizable profile") &&
+              "border-purple"
             }`}
           >
             <div
               className={`w-5 h-5 flex items-center justify-center border border-grey rounded ${
-                selectedAdds.includes("Customizable profile")
+                registrationInfo.ads.includes("Customizable profile")
                   ? "border-purple bg-purple !important"
                   : ""
               }}`}
             >
-              {selectedAdds.includes("Customizable profile") && (
+              {registrationInfo.ads.includes("Customizable profile") && (
                 <img src={Check} />
               )}
             </div>

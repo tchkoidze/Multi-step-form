@@ -18,11 +18,57 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
 
   console.log(registrationInfo);
 
+  const total = () => {
+    if (clicked) {
+      console.log(registrationInfo.ads);
+      const arr1 = registrationInfo.ads.map((x) => {
+        return x === "Online service"
+          ? 10
+          : x === "Larger storage"
+          ? 20
+          : x === "Customizable profile"
+          ? 20
+          : 0;
+      });
+      console.log(arr1);
+
+      const total =
+        parseFloat(registrationInfo.price.replace(/[^\d.-]/g, "")) +
+        arr1.reduce(
+          (accumulator: number, currentValue: number) =>
+            accumulator + currentValue,
+          0
+        );
+
+      console.log(total);
+      return total;
+    } else {
+      const arr1 = registrationInfo.ads.map((x) => {
+        return x === "Online service"
+          ? 1
+          : x === "Larger storage"
+          ? 2
+          : x === "Customizable profile"
+          ? 2
+          : 0;
+      });
+
+      const total =
+        parseFloat(registrationInfo.price.replace(/[^\d.-]/g, "")) +
+        arr1.reduce(
+          (accumulator: number, currentValue: number) =>
+            accumulator + currentValue,
+          0
+        );
+    }
+  };
+
   useEffect(() => {
     if (active) {
       localStorage.setItem("formData", JSON.stringify(registrationInfo));
     } else setActive(true);
-  }, [registrationInfo]);
+    total();
+  }, [registrationInfo, registrationInfo.ads]);
 
   return (
     <div className="flex flex-col h-[100%]">
@@ -34,32 +80,47 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
             Double-check everything looks OK before confirming.
           </p>
         </div>
-        <div className="flex flex-col gap-3">
-          <div className="flex justify-between items-center border-b border-grey">
+        <div className="flex flex-col gap-3 bg-[#F8F9FF] p-4 rounded">
+          <div className="flex justify-between items-center border-b border-grey pb-3">
             <div>
-              <h1 className="text-blue">{registrationInfo.plan}</h1>
-              <Link className="text-grey" to={"./plan"}>
+              <h1 className="text-blue font-ubuntu font-medium text-[14px] leading-4">
+                {registrationInfo.plan}
+                {clicked ? "(Yearly)" : "(Monthly)"}
+              </h1>
+              <Link className="text-grey underline" to={"./plan"}>
                 Change
               </Link>
             </div>
             <h2 className="text-blue">{registrationInfo.price}</h2>
           </div>
-          <div>
+          <ul>
             {registrationInfo.ads.map((x) => (
-              <div>
+              <li className="flex justify-between">
                 <h2 className="text-grey">{x}</h2>
                 <span className="text-grey">
                   {x === "Online service"
-                    ? "$1/mo"
+                    ? clicked
+                      ? "$10/yr"
+                      : "$1/mo"
                     : x === "Larger storage"
-                    ? "$2/mo"
+                    ? clicked
+                      ? "$20/yr"
+                      : "$2/mo"
                     : x === "Customizable profile"
-                    ? "$2/mo"
+                    ? clicked
+                      ? "$20/yr"
+                      : "$2/mo"
                     : ""}
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
+        </div>
+        <div>
+          <p className="text-grey px-3 my-5">
+            Total{clicked ? "(per year)" : "(per month)"}
+          </p>
+          <span className="text-purple"></span>
         </div>
       </div>
       <div className="flex mt-auto bg-white p-8">
