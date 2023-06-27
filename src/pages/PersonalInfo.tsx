@@ -25,11 +25,11 @@ const PersonalInfo = () => {
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(personalinfoSchema),
-    defaultValues: {
+    /*defaultValues: {
       email: registrationInfo.email,
       name: registrationInfo.name,
       phone: registrationInfo.phone,
-    },
+    },*/
   });
 
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ const PersonalInfo = () => {
               <input
                 type="text"
                 id="name"
-                //value={registrationInfo.name}
+                value={registrationInfo.name}
                 placeholder="e.g. Stephen King"
                 {...register("name", {
                   onChange: (e) => {
@@ -95,7 +95,7 @@ const PersonalInfo = () => {
               <input
                 //type="email"
                 id="email"
-                //value={registrationInfo.email}
+                value={registrationInfo.email}
                 placeholder="e.g. stephenking@lorem.com"
                 {...register("email", {
                   onChange: (e) => {
@@ -119,6 +119,7 @@ const PersonalInfo = () => {
               ) : null}
               <input
                 //type="number"
+                value={registrationInfo.phone}
                 id="phone"
                 placeholder="e.g. +1 234 567 890"
                 {...register("phone", {
