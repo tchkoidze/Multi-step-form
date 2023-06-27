@@ -10,6 +10,7 @@ interface SelectPlanProps {
 
 const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
   const [active, setActive] = useState<boolean>(false);
+  const [sum, setSum] = useState<number>(0);
 
   const navigate = useNavigate();
 
@@ -41,6 +42,7 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
         );
 
       console.log(total);
+      setSum(total);
       return total;
     } else {
       const arr1 = registrationInfo.ads.map((x) => {
@@ -60,6 +62,8 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
             accumulator + currentValue,
           0
         );
+      setSum(total);
+      return total;
     }
   };
 
@@ -94,8 +98,8 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
             <h2 className="text-blue">{registrationInfo.price}</h2>
           </div>
           <ul>
-            {registrationInfo.ads.map((x) => (
-              <li className="flex justify-between">
+            {registrationInfo.ads.map((x, index) => (
+              <li key={index} className="flex justify-between">
                 <h2 className="text-grey">{x}</h2>
                 <span className="text-grey">
                   {x === "Online service"
@@ -116,11 +120,13 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
             ))}
           </ul>
         </div>
-        <div>
-          <p className="text-grey px-3 my-5">
+        <div className="flex justify-between px-3 my-5">
+          <p className="text-grey ">
             Total{clicked ? "(per year)" : "(per month)"}
           </p>
-          <span className="text-purple"></span>
+          <span className="text-purple">{`$${sum}${
+            clicked ? "/yr" : "/mo"
+          }`}</span>
         </div>
       </div>
       <div className="flex mt-auto bg-white p-8">
