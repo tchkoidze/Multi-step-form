@@ -8,6 +8,7 @@ interface RegistrationInfo {
   phone: string;
   plan: string;
   price: string;
+  payment: string;
   ads: Array<string>;
 }
 
@@ -19,6 +20,7 @@ const initialState: RegistrationInfo = {
   phone: "",
   plan: "",
   price: "",
+  payment: "monthly",
   ads: [],
 };
 

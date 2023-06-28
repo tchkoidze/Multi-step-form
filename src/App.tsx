@@ -4,7 +4,7 @@ import PersonalInfo from "./pages/PersonalInfo";
 
 import SelectPlan from "./pages/SelectPlan";
 import PickAdds from "./pages/PickAdds";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { updateLocal } from "./store/registrationInfoSlice";
 import Finish from "./pages/Finish";
@@ -16,6 +16,8 @@ function App() {
   const [clicked, setClicked] = useState<boolean>(false);
   const personalInfo = useAppSelector((store) => store.registrationInfo);
   const dispatch = useAppDispatch();
+  //default false means monthly, payment, when it becomes true it will be yeatly payment
+  const paymentPeriod = useRef(false);
 
   console.log(personalInfo);
 
@@ -35,7 +37,13 @@ function App() {
         <Route path="/" element={<PersonalInfo />} />
         <Route
           path="/plan"
-          element={<SelectPlan clicked={clicked} setClicked={setClicked} />}
+          element={
+            <SelectPlan
+              clicked={clicked}
+              setClicked={setClicked}
+              paymentPeriod={paymentPeriod}
+            />
+          }
         />
         <Route path="/adds" element={<PickAdds clicked={clicked} />} />
         <Route path="/finish" element={<Finish clicked={clicked} />} />

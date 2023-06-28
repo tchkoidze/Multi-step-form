@@ -23,6 +23,7 @@ const PersonalInfo = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     resolver: yupResolver(personalinfoSchema),
     /*defaultValues: {
@@ -47,13 +48,19 @@ const PersonalInfo = () => {
     if (active) {
       localStorage.setItem("formData", JSON.stringify(registrationInfo));
     } else setActive(true);
+    // Set form values with data from local storage
+    reset({
+      name: registrationInfo.name,
+      email: registrationInfo.email,
+      phone: registrationInfo.phone,
+    });
   }, [registrationInfo]);
 
   return (
     <div className="h-[100%]  flex flex-col justify-between">
       <RegistrationSteps />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="-translate-y-[72px] ">
+      <form onSubmit={handleSubmit(onSubmit)} className="-translate-y-[72px]">
         <div className=" bg-white px-6 py-8 mx-4 rounded-[10px]">
           <h1 className="text-blue">Personal info</h1>
           <p className="text-grey mt-[9px] mb-[22px]">
@@ -70,7 +77,7 @@ const PersonalInfo = () => {
               <input
                 type="text"
                 id="name"
-                value={registrationInfo.name}
+                defaultValue={registrationInfo.name}
                 placeholder="e.g. Stephen King"
                 {...register("name", {
                   onChange: (e) => {
@@ -95,7 +102,7 @@ const PersonalInfo = () => {
               <input
                 //type="email"
                 id="email"
-                value={registrationInfo.email}
+                defaultValue={registrationInfo.email}
                 placeholder="e.g. stephenking@lorem.com"
                 {...register("email", {
                   onChange: (e) => {
@@ -119,7 +126,7 @@ const PersonalInfo = () => {
               ) : null}
               <input
                 //type="number"
-                value={registrationInfo.phone}
+                defaultValue={registrationInfo.phone}
                 id="phone"
                 placeholder="e.g. +1 234 567 890"
                 {...register("phone", {

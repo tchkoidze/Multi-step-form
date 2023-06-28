@@ -117,14 +117,12 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
   console.log(registrationInfo.ads);
   useEffect(() => {
     if (active) {
+      console.log(234);
       localStorage.setItem("formData", JSON.stringify(registrationInfo));
     } else setActive(true);
+    console.log(789);
+    console.log(registrationInfo.ads);
   }, [registrationInfo]);
-
-  useEffect(() => {
-    // Dispatch the updateRegistrationInfo action whenever selectedAdds changes
-    dispatch(updateRegistrationInfo({ property: "ads", value: selectedAdds }));
-  }, [dispatch, selectedAdds]);
 
   return (
     <div className="flex flex-col h-[100%]">
