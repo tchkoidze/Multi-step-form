@@ -19,7 +19,6 @@ const SelectPlan: React.FC<SelectPlanProps> = ({
   paymentPeriod,
 }) => {
   const [active, setActive] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string>("");
 
   const dispatch = useAppDispatch();
   const registrationInfo = useAppSelector((state) => state.registrationInfo);
@@ -69,16 +68,12 @@ const SelectPlan: React.FC<SelectPlanProps> = ({
               registrationInfo.plan === "Arcade" ? "selected" : ""
             } hover:border-purple`}
             onClick={() => {
-              setSelected("Arcade");
               dispatch(
                 updateRegistrationInfo({ property: "plan", value: "Arcade" })
               );
               dispatch(
                 updateRegistrationInfo({
                   property: "price",
-                  //value: clicked ? "$90/year" : "$9/month",
-                  //value: paymentPeriod.current ? "$90/year" : "$9/month",
-
                   value: registrationInfo.payment.includes("yearly")
                     ? "$90/year"
                     : "$9/month",
@@ -89,7 +84,6 @@ const SelectPlan: React.FC<SelectPlanProps> = ({
             <img src={Arcade} alt="arcade" />
             <div className="text-blue flex flex-col gap-1">
               <p>Arcade</p>
-              {/*clicked ? <span>$90/yr</span> : <span>$9/mo</span>*/}
               {registrationInfo.payment.includes("yearly") ? (
                 <span>$90/yr</span>
               ) : (
@@ -106,14 +100,12 @@ const SelectPlan: React.FC<SelectPlanProps> = ({
               registrationInfo.plan === "Advanced" ? "selected" : ""
             } hover:border-purple`}
             onClick={() => {
-              setSelected("Advanced");
               dispatch(
                 updateRegistrationInfo({ property: "plan", value: "Advanced" })
               );
               dispatch(
                 updateRegistrationInfo({
                   property: "price",
-                  //value: clicked ? "$120/year" : "$12/month",
                   value: registrationInfo.payment.includes("yearly")
                     ? "$120/year"
                     : "$12/month",
@@ -141,14 +133,12 @@ const SelectPlan: React.FC<SelectPlanProps> = ({
               registrationInfo.plan === "Pro" ? "selected" : ""
             } hover:border-purple `}
             onClick={() => {
-              setSelected("Pro");
               dispatch(
                 updateRegistrationInfo({ property: "plan", value: "Pro" })
               );
               dispatch(
                 updateRegistrationInfo({
                   property: "price",
-                  //value: clicked ? "$150/year" : "$15/month",
                   value: registrationInfo.payment.includes("yearly")
                     ? "$150/year"
                     : "$15/month",
@@ -178,7 +168,6 @@ const SelectPlan: React.FC<SelectPlanProps> = ({
                 type="checkbox"
                 value=""
                 //checked={clicked}
-                //checked={paymentPeriod.current}
                 checked={registrationInfo.payment.includes("yearly")}
                 onChange={() => {
                   paymentPeriod.current = !paymentPeriod.current;
