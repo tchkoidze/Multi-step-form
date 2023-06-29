@@ -4,7 +4,7 @@ const Thank = () => {
   return (
     <div className="flex flex-col h-[100%]">
       <RegistrationSteps />
-      <div className="bg-white px-6 py-8 mx-4 rounded-[10px] -translate-y-[72px]">
+      <div className="bg-white px-6 py-8 rounded-[10px] max-w-[343px] mx-auto -translate-y-[72px] ">
         <div className="mb-[22px] text-center">
           <div className="flex justify-center items-center w-14 h-14 bg-[#F9818E] rounded-[50%] m-auto">
             <div className="flex justify-center items-center w-[30px] h-[30px] bg-white rounded-[50%]">

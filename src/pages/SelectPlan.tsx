@@ -54,7 +54,7 @@ const SelectPlan: React.FC<SelectPlanProps> = ({
     <div className="h-[100%] flex flex-col">
       <RegistrationSteps />
 
-      <div className=" bg-white px-6 py-8 mx-4 -translate-y-[72px] shadow-xl rounded-[10px]">
+      <div className=" bg-white px-6 py-8  -translate-y-[72px] shadow-xl rounded-[10px] max-w-[343px] m-auto">
         <div className="mb-[22px]">
           <h1 className="text-blue mb-[9px]">Select your plan</h1>
           <p className="text-grey">

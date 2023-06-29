@@ -66,7 +66,7 @@ const PickAdds = () => {
   return (
     <div className="flex flex-col h-[100%]">
       <RegistrationSteps />
-      <div className="bg-white px-6 py-8 mx-4 rounded-[10px] -translate-y-[72px]">
+      <div className="bg-white px-6 py-8 rounded-[10px] -translate-y-[72px] max-w-[343px] m-auto">
         <div className="mb-[22px]">
           <h1 className="font-ubuntu text-blue mb-[9px]">Pick add-ons</h1>
           <p className="text-grey">

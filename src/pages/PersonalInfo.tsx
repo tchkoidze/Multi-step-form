@@ -55,11 +55,11 @@ const PersonalInfo = () => {
   }, [registrationInfo]);
 
   return (
-    <div className="h-[100%]  flex flex-col justify-between">
+    <div className="h-[100%]  flex flex-col justify-between ">
       <RegistrationSteps />
 
       <form onSubmit={handleSubmit(onSubmit)} className="-translate-y-[72px]">
-        <div className=" bg-white px-6 py-8 mx-4 rounded-[10px]">
+        <div className=" bg-white px-6 py-8  rounded-[10px] max-w-[343px] m-auto">
           <h1 className="text-blue">Personal info</h1>
           <p className="text-grey mt-[9px] mb-[22px]">
             Please provide your name, email address, and phone number.
