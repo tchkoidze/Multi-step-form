@@ -45,7 +45,7 @@ function App() {
             />
           }
         />
-        <Route path="/adds" element={<PickAdds clicked={clicked} />} />
+        <Route path="/adds" element={<PickAdds />} />
         <Route path="/finish" element={<Finish clicked={clicked} />} />
         <Route path="/thank" element={<Thank />} />
       </Routes>

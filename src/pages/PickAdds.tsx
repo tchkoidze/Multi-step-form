@@ -5,42 +5,12 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateRegistrationInfo } from "../store/registrationInfoSlice";
 import Check from "../assets/images/icon-checkmark.svg";
 
-interface SelectPlanProps {
-  clicked: boolean;
-}
-
-const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
+const PickAdds = () => {
   const dispatch = useAppDispatch();
   const registrationInfo = useAppSelector((store) => store.registrationInfo);
 
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
-
-  const [selectedAdds, setSelectedAdds] = useState<string[]>([]);
-
-  /*const handleAddClick = (add: string) => {
-    // Check if the ad is already selected
-    const isSelected = registrationInfo.ads.includes(add);
-    if (isSelected) {
-      // Remove the ad from the selectedAds array
-      console.log(123);
-      const updatedAdds = selectedAdds.filter(
-        (selectedAdd) => selectedAdd !== add
-      );
-      setSelectedAdds(updatedAdds);
-    } else {
-      console.log(isSelected);
-      console.log(780);
-      // Add the ad to the selectedAds array
-      setSelectedAdds([...selectedAdds, add]);
-      console.log(selectedAdds);
-    }
-    // Wait for the state update to complete
-
-    console.log(selectedAdds);
-    // Dispatch the updateRegistrationInfo action with the selectedAdds array
-    dispatch(updateRegistrationInfo({ property: "ads", value: selectedAdds }));
-  };*/
 
   const handleAddClick = (add: string) => {
     console.log(registrationInfo.ads);
@@ -67,7 +37,6 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
     }
   };
 
-  console.log(selectedAdds);
   const handleNextStep = () => {
     // Check if any of the required options is selected
     const isAnyOptionSelected =
