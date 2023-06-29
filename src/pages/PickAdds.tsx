@@ -18,25 +18,6 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
 
   const [selectedAdds, setSelectedAdds] = useState<string[]>([]);
 
-  const total = () => {
-    if (clicked) {
-      console.log(registrationInfo.ads);
-      const arr1 = registrationInfo.ads.map((x) => {
-        return x === "Online service"
-          ? 10
-          : x === "Larger storage"
-          ? 2
-          : x === "Customizable profile"
-          ? 2
-          : "";
-      });
-      console.log(arr1);
-      const total = parseFloat(registrationInfo.price.replace(/[^\d.-]/g, ""));
-      console.log(total);
-      return total;
-    }
-  };
-
   /*const handleAddClick = (add: string) => {
     // Check if the ad is already selected
     const isSelected = registrationInfo.ads.includes(add);
@@ -151,7 +132,9 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              {clicked ? "+$10/yr" : "+$1/mo"}
+              {registrationInfo.payment.includes("yearly")
+                ? "+$10/yr"
+                : "+$1/mo"}
             </p>
           </div>
 
@@ -182,7 +165,9 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              {clicked ? "+$20/yr" : "+$2/mo"}
+              {registrationInfo.payment.includes("yearly")
+                ? "+$20/yr"
+                : "+$2/mo"}
             </p>
           </div>
 
@@ -213,7 +198,9 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              {clicked ? "+$20/yr" : "+$2/mo"}
+              {registrationInfo.payment.includes("yearly")
+                ? "+$20/yr"
+                : "+$2/mo"}
             </p>
           </div>
         </div>
