@@ -3,6 +3,7 @@ import RegistrationSteps from "../components/Registration-steps";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../store/hooks";
+import axios from "axios";
 
 interface SelectPlanProps {
   clicked: boolean;
@@ -18,6 +19,25 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
   const registrationInfo = useAppSelector((store) => store.registrationInfo);
 
   console.log(registrationInfo);
+
+  const addRegistration = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/registration",
+        {
+          name: registrationInfo.name,
+          email: registrationInfo.email,
+          phone: registrationInfo.phone,
+          plan: registrationInfo.plan,
+          price: registrationInfo.price,
+          payment: registrationInfo.payment,
+          ads: registrationInfo.ads,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const total = () => {
     if (clicked) {
@@ -135,7 +155,10 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
         </Link>
         <button
           type="submit"
-          onClick={() => navigate("/thank")}
+          onClick={() => {
+            navigate("/thank");
+            addRegistration();
+          }}
           className="bg-blue rounded px-4 py-3 ml-auto"
         >
           Next Step

@@ -17,7 +17,7 @@ const Thank = () => {
                 <path
                   fill="none"
                   stroke="#F9818E"
-                  stroke-width="3"
+                  strokeWidth="3"
                   d="m1 4 3.433 3.433L10.866 1"
                 />
               </svg>

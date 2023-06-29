@@ -42,8 +42,6 @@ const PersonalInfo = () => {
 
   console.log(registrationInfo);
 
-  //const initialRender = useRef<boolean>(false);
-
   useEffect(() => {
     if (active) {
       localStorage.setItem("formData", JSON.stringify(registrationInfo));

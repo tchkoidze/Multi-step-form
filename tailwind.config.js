@@ -18,6 +18,7 @@ export default {
         red: "#EE374A",
         "sky-blue": "#483EFF",
         purple: "#483EFF",
+        "sky-light": "#BEE2FD",
       },
     },
   },
