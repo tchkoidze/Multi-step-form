@@ -8,6 +8,8 @@ interface SelectPlanProps {
   clicked: boolean;
 }
 
+const BASE_URL = import.meta.env.VITE_BACK_URL;
+
 const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
   const [active, setActive] = useState<boolean>(false);
   const [sum, setSum] = useState<number>(0);
@@ -20,7 +22,7 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
 
   const addRegistration = async () => {
     try {
-      await axios.post("http://localhost:3000/api/registration", {
+      await axios.post(`${BASE_URL}`, {
         name: registrationInfo.name,
         email: registrationInfo.email,
         phone: registrationInfo.phone,
