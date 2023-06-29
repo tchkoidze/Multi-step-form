@@ -20,18 +20,15 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
 
   const addRegistration = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/registration",
-        {
-          name: registrationInfo.name,
-          email: registrationInfo.email,
-          phone: registrationInfo.phone,
-          plan: registrationInfo.plan,
-          price: registrationInfo.price,
-          payment: registrationInfo.payment,
-          ads: registrationInfo.ads,
-        }
-      );
+      await axios.post("http://localhost:3000/api/registration", {
+        name: registrationInfo.name,
+        email: registrationInfo.email,
+        phone: registrationInfo.phone,
+        plan: registrationInfo.plan,
+        price: registrationInfo.price,
+        payment: registrationInfo.payment,
+        ads: registrationInfo.ads,
+      });
     } catch (error) {
       console.log(error);
     }
