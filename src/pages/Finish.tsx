@@ -8,7 +8,7 @@ interface SelectPlanProps {
   clicked: boolean;
 }
 
-//const BASE_URL = import.meta.env.VITE_BACK_URL;
+const BASE_URL = import.meta.env.VITE_BACK_URL;
 
 const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
   const [active, setActive] = useState<boolean>(false);
@@ -22,18 +22,15 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
 
   const addRegistration = async () => {
     try {
-      await axios.post(
-        `https://multi-step-api-da0808a28bdb.herokuapp.com/api/registration`,
-        {
-          name: registrationInfo.name,
-          email: registrationInfo.email,
-          phone: registrationInfo.phone,
-          plan: registrationInfo.plan,
-          price: registrationInfo.price,
-          payment: registrationInfo.payment,
-          ads: registrationInfo.ads,
-        }
-      );
+      await axios.post(`${BASE_URL}`, {
+        name: registrationInfo.name,
+        email: registrationInfo.email,
+        phone: registrationInfo.phone,
+        plan: registrationInfo.plan,
+        price: registrationInfo.price,
+        payment: registrationInfo.payment,
+        ads: registrationInfo.ads,
+      });
     } catch (error) {
       console.log(error);
     }
