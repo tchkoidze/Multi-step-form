@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateRegistrationInfo } from "../store/registrationInfoSlice";
 import Check from "../assets/images/icon-checkmark.svg";
-import { number } from "yup";
 
 interface SelectPlanProps {
   clicked: boolean;
@@ -85,15 +84,10 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
         })
       );
     }
-
-    //total();
   };
 
   console.log(selectedAdds);
   const handleNextStep = () => {
-    // Dispatch the updateRegistrationInfo action with the selectedAds array
-    //dispatch(updateRegistrationInfo({ property: "ads", value: selectedAdds }));
-    // Other logic for the next step
     // Check if any of the required options is selected
     const isAnyOptionSelected =
       registrationInfo.ads.includes("Larger storage") ||
@@ -101,8 +95,6 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
       registrationInfo.ads.includes("Customizable profile");
 
     if (isAnyOptionSelected) {
-      // Dispatch the updateRegistrationInfo action with the selectedAds array
-      //dispatch(updateRegistrationInfo({ property: "ads", value: selectedAdds }));
       navigate("/finish");
       // Other logic for the next step
     } else {
@@ -111,9 +103,6 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
     }
   };
 
-  const [online, setOnline] = useState("");
-  const [largerStorage, setLargerStorage] = useState("");
-  const [customizeProfile, setCustomizeProfile] = useState("");
   console.log(registrationInfo.ads);
   useEffect(() => {
     if (active) {
@@ -136,21 +125,6 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
         </div>
         <div className="flex flex-col gap-3">
           <div
-            //onClick={() => setOnline("Online service")}
-            /* onClick={() => {
-              setOnline((prevValue) =>
-                prevValue === "Online service" ? "" : "Online service"
-              );
-              dispatch(
-                updateRegistrationInfo({
-                  property: "ads",
-                  value: [..."Online service"],
-                })
-              );
-            }}
-            className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              online === "Online service" && "border-purple"
-            }`}*/
             onClick={() => handleAddClick("Online service")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
               registrationInfo.ads.includes("Online service") &&
@@ -182,21 +156,6 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
           </div>
 
           <div
-            //onClick={() => setLargerStorage("Larger storage")}
-            /*onClick={() => {
-              setLargerStorage((prevValue) =>
-                prevValue === "Larger storage" ? "" : "Larger storage"
-              );
-              dispatch(
-                updateRegistrationInfo({
-                  property: "ads",
-                  value: [..."Larger storage"],
-                })
-              );
-            }}
-            className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              largerStorage === "Larger storage" && "border-purple"
-            }`}*/
             onClick={() => handleAddClick("Larger storage")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
               registrationInfo.ads.includes("Larger storage") && "border-purple"
@@ -228,17 +187,6 @@ const PickAdds: React.FC<SelectPlanProps> = ({ clicked }) => {
           </div>
 
           <div
-            // onClick={() => setCustomizeProfile("Customizable profile")}
-            /*onClick={() =>
-              setCustomizeProfile((prevValue) =>
-                prevValue === "Customizable profile"
-                  ? ""
-                  : "Customizable profile"
-              )
-            }
-            className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              customizeProfile === "Customizable profile" && "border-purple"
-            }`}*/
             onClick={() => handleAddClick("Customizable profile")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
               registrationInfo.ads.includes("Customizable profile") &&
