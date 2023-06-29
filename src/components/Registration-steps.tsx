@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import Bg from "../assets/images/bg-sidebar-mobile.svg";
+//import Bg from "../assets/images/bg-sidebar-mobile.svg";
 
 const RegistrationSteps = () => {
   const location = useLocation();
