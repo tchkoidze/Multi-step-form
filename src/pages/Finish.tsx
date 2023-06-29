@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import RegistrationSteps from "../components/Registration-steps";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useAppSelector } from "../store/hooks";
 import axios from "axios";
 
@@ -15,7 +14,6 @@ const Finish: React.FC<SelectPlanProps> = ({ clicked }) => {
 
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
   const registrationInfo = useAppSelector((store) => store.registrationInfo);
 
   console.log(registrationInfo);
