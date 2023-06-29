@@ -3,6 +3,7 @@ import RegistrationSteps from "../components/Registration-steps";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { updateRegistrationInfo } from "../store/registrationInfoSlice";
+import Check from "../assets/images/icon-checkmark.svg";
 
 const PickAdds = () => {
   const dispatch = useAppDispatch();
@@ -11,39 +12,39 @@ const PickAdds = () => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
 
-  const [selectedAdds, setSelectedAdds] = useState<string[]>(
-    registrationInfo.ads
-  );
   const handleAddClick = (add: string) => {
-    // Check if the ad is already selected
-    const isSelected = selectedAdds.includes(add);
-    if (isSelected) {
-      // Remove the ad from the selectedAds array
-      const updatedAdds = selectedAdds.filter(
+    console.log(registrationInfo.ads);
+    const beenselected = registrationInfo.ads.includes(add);
+    console.log(beenselected);
+    if (!beenselected) {
+      console.log(5);
+      dispatch(
+        updateRegistrationInfo({
+          property: "ads",
+          value: [...registrationInfo.ads, add],
+        })
+      );
+    } else {
+      const updateAdds = registrationInfo.ads.filter(
         (selectedAdd) => selectedAdd !== add
       );
-      setSelectedAdds(updatedAdds);
-    } else {
-      // Add the ad to the selectedAds array
-      setSelectedAdds([...selectedAdds, add]);
+      dispatch(
+        updateRegistrationInfo({
+          property: "ads",
+          value: updateAdds,
+        })
+      );
     }
   };
-  console.log(selectedAdds);
+
   const handleNextStep = () => {
-    // Dispatch the updateRegistrationInfo action with the selectedAds array
-    //dispatch(updateRegistrationInfo({ property: "ads", value: selectedAdds }));
-    // Other logic for the next step
     // Check if any of the required options is selected
     const isAnyOptionSelected =
-      selectedAdds.includes("Larger storage") ||
-      selectedAdds.includes("Online service") ||
-      selectedAdds.includes("Customizable profile");
+      registrationInfo.ads.includes("Larger storage") ||
+      registrationInfo.ads.includes("Online service") ||
+      registrationInfo.ads.includes("Customizable profile");
 
     if (isAnyOptionSelected) {
-      // Dispatch the updateRegistrationInfo action with the selectedAds array
-      dispatch(
-        updateRegistrationInfo({ property: "ads", value: selectedAdds })
-      );
       navigate("/finish");
       // Other logic for the next step
     } else {
@@ -52,20 +53,20 @@ const PickAdds = () => {
     }
   };
 
-  const [online, setOnline] = useState("");
-  const [largerStorage, setLargerStorage] = useState("");
-  const [customizeProfile, setCustomizeProfile] = useState("");
   console.log(registrationInfo.ads);
   useEffect(() => {
     if (active) {
+      console.log(234);
       localStorage.setItem("formData", JSON.stringify(registrationInfo));
     } else setActive(true);
+    console.log(789);
+    console.log(registrationInfo.ads);
   }, [registrationInfo]);
 
   return (
     <div className="flex flex-col h-[100%]">
       <RegistrationSteps />
-      <div className="bg-white px-6 py-8 mx-4 rounded-[10px]">
+      <div className="bg-white px-6 py-8 mx-4 rounded-[10px] -translate-y-[72px]">
         <div className="mb-[22px]">
           <h1 className="font-ubuntu text-blue mb-[9px]">Pick add-ons</h1>
           <p className="text-grey">
@@ -74,27 +75,23 @@ const PickAdds = () => {
         </div>
         <div className="flex flex-col gap-3">
           <div
-            //onClick={() => setOnline("Online service")}
-            /* onClick={() => {
-              setOnline((prevValue) =>
-                prevValue === "Online service" ? "" : "Online service"
-              );
-              dispatch(
-                updateRegistrationInfo({
-                  property: "ads",
-                  value: [..."Online service"],
-                })
-              );
-            }}
-            className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              online === "Online service" && "border-purple"
-            }`}*/
             onClick={() => handleAddClick("Online service")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              selectedAdds.includes("Online service") && "border-purple"
+              registrationInfo.ads.includes("Online service") &&
+              "border-purple "
             }`}
           >
-            <div className="w-5 h-5 border border-grey rounded"></div>
+            <div
+              className={`w-5 h-5 border flex items-center justify-center border-grey rounded ${
+                registrationInfo.ads.includes("Online service")
+                  ? "border-purple bg-purple !important"
+                  : ""
+              }}`}
+            >
+              {registrationInfo.ads.includes("Online service") && (
+                <img src={Check} />
+              )}
+            </div>
             <div className="ml-4">
               <h3 className="font-ubuntu font-medium text-sm/[16px]  text-blue">
                 Online service
@@ -104,32 +101,30 @@ const PickAdds = () => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              +$1/mo
+              {registrationInfo.payment.includes("yearly")
+                ? "+$10/yr"
+                : "+$1/mo"}
             </p>
           </div>
 
           <div
-            //onClick={() => setLargerStorage("Larger storage")}
-            /*onClick={() => {
-              setLargerStorage((prevValue) =>
-                prevValue === "Larger storage" ? "" : "Larger storage"
-              );
-              dispatch(
-                updateRegistrationInfo({
-                  property: "ads",
-                  value: [..."Larger storage"],
-                })
-              );
-            }}
-            className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              largerStorage === "Larger storage" && "border-purple"
-            }`}*/
             onClick={() => handleAddClick("Larger storage")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              selectedAdds.includes("Larger storage") && "border-purple"
+              registrationInfo.ads.includes("Larger storage") && "border-purple"
             }`}
           >
-            <div className="w-5 h-5 border border-grey rounded"></div>
+            <div
+              className={`w-5 h-5 flex items-center justify-center border border-grey rounded ${
+                registrationInfo.ads.includes("Larger storage")
+                  ? "border-purple bg-purple !important"
+                  : ""
+              }}`}
+            >
+              {registrationInfo.ads.includes("Larger storage") && (
+                <img src={Check} />
+              )}
+            </div>
+
             <div className="ml-4 ">
               <h3 className="font-ubuntu font-medium text-sm/[16px]  text-blue">
                 Larger storage
@@ -139,28 +134,30 @@ const PickAdds = () => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              +$2/mo
+              {registrationInfo.payment.includes("yearly")
+                ? "+$20/yr"
+                : "+$2/mo"}
             </p>
           </div>
 
           <div
-            // onClick={() => setCustomizeProfile("Customizable profile")}
-            /*onClick={() =>
-              setCustomizeProfile((prevValue) =>
-                prevValue === "Customizable profile"
-                  ? ""
-                  : "Customizable profile"
-              )
-            }
-            className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              customizeProfile === "Customizable profile" && "border-purple"
-            }`}*/
             onClick={() => handleAddClick("Customizable profile")}
             className={`flex items-center border border-grey rounded-lg px-4 py-3 ${
-              selectedAdds.includes("Customizable profile") && "border-purple"
+              registrationInfo.ads.includes("Customizable profile") &&
+              "border-purple"
             }`}
           >
-            <div className="w-5 h-5 border border-grey rounded"></div>
+            <div
+              className={`w-5 h-5 flex items-center justify-center border border-grey rounded ${
+                registrationInfo.ads.includes("Customizable profile")
+                  ? "border-purple bg-purple !important"
+                  : ""
+              }}`}
+            >
+              {registrationInfo.ads.includes("Customizable profile") && (
+                <img src={Check} />
+              )}
+            </div>
             <div className="ml-4">
               <h3 className="font-ubuntu font-medium text-sm/[16px]  text-blue">
                 Customizable profile
@@ -170,7 +167,9 @@ const PickAdds = () => {
               </p>
             </div>
             <p className="font-ubuntu font-normal text-xs/[20px] text-sky-blue ml-auto">
-              +$2/mo
+              {registrationInfo.payment.includes("yearly")
+                ? "+$20/yr"
+                : "+$2/mo"}
             </p>
           </div>
         </div>

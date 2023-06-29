@@ -10,11 +10,15 @@ import { updateRegistrationInfo } from "../store/registrationInfoSlice";
 interface SelectPlanProps {
   clicked: boolean;
   setClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  paymentPeriod: React.MutableRefObject<boolean>;
 }
 
-const SelectPlan: React.FC<SelectPlanProps> = ({ clicked, setClicked }) => {
+const SelectPlan: React.FC<SelectPlanProps> = ({
+  clicked,
+  setClicked,
+  paymentPeriod,
+}) => {
   const [active, setActive] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string>("");
 
   const dispatch = useAppDispatch();
   const registrationInfo = useAppSelector((state) => state.registrationInfo);
@@ -23,12 +27,29 @@ const SelectPlan: React.FC<SelectPlanProps> = ({ clicked, setClicked }) => {
   //const [clicked, setClicked] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  const handleNextStep = () => {
+    // Check if any of the required options is selected
+    const isAnyOptionSelected =
+      registrationInfo.plan === "Arcade" ||
+      registrationInfo.plan === "Advanced" ||
+      registrationInfo.plan === "Pro";
+
+    if (isAnyOptionSelected) {
+      //if selected required options, move to next page
+      navigate("/adds");
+    } else {
+      // Display an error message or handle the scenario where no option is selected
+      console.log("Please select at least one option");
+    }
+  };
+
+  console.log(registrationInfo.plan);
   useEffect(() => {
     if (active) {
       localStorage.setItem("formData", JSON.stringify(registrationInfo));
     } else setActive(true);
   }, [registrationInfo]);
-
+  console.log(paymentPeriod);
   return (
     <div className="h-[100%] flex flex-col">
       <RegistrationSteps />
@@ -44,17 +65,18 @@ const SelectPlan: React.FC<SelectPlanProps> = ({ clicked, setClicked }) => {
         <div className="flex flex-col gap-3">
           <div
             className={`flex gap-3.5 border border-grey border-solid rounded-lg px-4 pt-3.5 pb-[18px] ${
-              selected === "Arcade" ? "selected" : ""
+              registrationInfo.plan === "Arcade" ? "selected" : ""
             } hover:border-purple`}
             onClick={() => {
-              setSelected("Arcade");
               dispatch(
                 updateRegistrationInfo({ property: "plan", value: "Arcade" })
               );
               dispatch(
                 updateRegistrationInfo({
                   property: "price",
-                  value: clicked ? "$90/year" : "$9/month",
+                  value: registrationInfo.payment.includes("yearly")
+                    ? "$90/year"
+                    : "$9/month",
                 })
               );
             }}
@@ -62,23 +84,31 @@ const SelectPlan: React.FC<SelectPlanProps> = ({ clicked, setClicked }) => {
             <img src={Arcade} alt="arcade" />
             <div className="text-blue flex flex-col gap-1">
               <p>Arcade</p>
-              {clicked ? <span>$90/yr</span> : <span>$9/mo</span>}
-              {clicked && <p className="text-blue">2 months free</p>}
+              {registrationInfo.payment.includes("yearly") ? (
+                <span>$90/yr</span>
+              ) : (
+                <span>$9/mo</span>
+              )}
+              {/*clicked && <p className="text-blue">2 months free</p>*/}
+              {registrationInfo.payment.includes("yearly") && (
+                <p className="text-blue">2 months free</p>
+              )}
             </div>
           </div>
           <div
             className={`flex gap-3.5 border border-grey border-solid rounded-lg px-4 pt-3.5 pb-[18px] ${
-              selected === "Advanced" ? "selected" : ""
+              registrationInfo.plan === "Advanced" ? "selected" : ""
             } hover:border-purple`}
             onClick={() => {
-              setSelected("Advanced");
               dispatch(
                 updateRegistrationInfo({ property: "plan", value: "Advanced" })
               );
               dispatch(
                 updateRegistrationInfo({
                   property: "price",
-                  value: clicked ? "$120/year" : "$12/month",
+                  value: registrationInfo.payment.includes("yearly")
+                    ? "$120/year"
+                    : "$12/month",
                 })
               );
             }}
@@ -86,23 +116,32 @@ const SelectPlan: React.FC<SelectPlanProps> = ({ clicked, setClicked }) => {
             <img src={Advanced} alt="arcade" />
             <div className="text-blue flex flex-col gap-1">
               <p>Advanced</p>
-              {clicked ? <span>$120/yr</span> : <span>$12/mo</span>}
-              {clicked && <p className="text-blue">2 months free</p>}
+              {/*clicked ? <span>$120/yr</span> : <span>$12/mo</span>*/}
+              {/*clicked && <p className="text-blue">2 months free</p>*/}
+              {registrationInfo.payment.includes("yearly") ? (
+                <span>$120/yr</span>
+              ) : (
+                <span>$12/mo</span>
+              )}
+              {registrationInfo.payment.includes("yearly") && (
+                <p className="text-blue">2 months free</p>
+              )}
             </div>
           </div>
           <div
             className={`flex gap-3.5 border border-grey border-solid rounded-lg px-4 pt-3.5 pb-[18px] ${
-              selected === "Pro" ? "selected" : ""
+              registrationInfo.plan === "Pro" ? "selected" : ""
             } hover:border-purple `}
             onClick={() => {
-              setSelected("Pro");
               dispatch(
                 updateRegistrationInfo({ property: "plan", value: "Pro" })
               );
               dispatch(
                 updateRegistrationInfo({
                   property: "price",
-                  value: clicked ? "$150/year" : "$15/month",
+                  value: registrationInfo.payment.includes("yearly")
+                    ? "$150/year"
+                    : "$15/month",
                 })
               );
             }}
@@ -110,8 +149,16 @@ const SelectPlan: React.FC<SelectPlanProps> = ({ clicked, setClicked }) => {
             <img src={Pro} alt="arcade" />
             <div className="text-blue flex flex-col gap-1">
               <p>Pro</p>
-              {clicked ? <span>$150/yr</span> : <span>$15/mo</span>}
-              {clicked && <p className="text-blue">2 months free</p>}
+              {/*clicked ? <span>$150/yr</span> : <span>$15/mo</span>*/}
+              {/*clicked && <p className="text-blue">2 months free</p>*/}
+              {registrationInfo.payment.includes("yearly") ? (
+                <span>$150/yr</span>
+              ) : (
+                <span>$15/mo</span>
+              )}
+              {registrationInfo.payment.includes("yearly") && (
+                <p className="text-blue">2 months free</p>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-4 justify-center">
@@ -120,8 +167,29 @@ const SelectPlan: React.FC<SelectPlanProps> = ({ clicked, setClicked }) => {
               <input
                 type="checkbox"
                 value=""
-                checked={clicked}
-                onChange={() => setClicked(!clicked)}
+                //checked={clicked}
+                checked={registrationInfo.payment.includes("yearly")}
+                onChange={() => {
+                  paymentPeriod.current = !paymentPeriod.current;
+                  setClicked(!clicked);
+                  console.log(paymentPeriod);
+                  const period = registrationInfo.payment.includes("monthly");
+                  if (period) {
+                    dispatch(
+                      updateRegistrationInfo({
+                        property: "payment",
+                        value: "yearly",
+                      })
+                    );
+                  } else {
+                    dispatch(
+                      updateRegistrationInfo({
+                        property: "payment",
+                        value: "monthly",
+                      })
+                    );
+                  }
+                }}
                 className="sr-only peer"
               />
               <div className="w-[38px] h-5 bg-gray-200  rounded-full peer dark:bg-blue peer-checked:after:translate-x-[18px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-blue peer-checked:bg-blue"></div>
@@ -136,7 +204,7 @@ const SelectPlan: React.FC<SelectPlanProps> = ({ clicked, setClicked }) => {
           Go Back
         </Link>
         <button
-          onClick={() => navigate("/adds")}
+          onClick={handleNextStep}
           type="submit"
           className="bg-blue rounded px-4 py-3 ml-auto"
         >
